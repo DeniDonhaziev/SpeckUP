@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: speckup
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 20
+      - key: COOKIE_SECURE
+        value: true
+      - key: ADMIN_NAME
+        value: Администратор
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: AI_PROVIDER
+        value: tuzi
+      - key: AI_BASE_URL
+        value: https://api.tu-zi.com/v1
+      - key: ANALYSIS_MODEL
+        value: gpt-4o-mini
+      - key: AI_API_KEY
+        sync: false
+      - key: DB_BACKEND
+        value: firebase
+      # Firebase: задайте либо FIREBASE_SERVICE_ACCOUNT (весь JSON одной строкой),
+      # либо три поля ниже — project_id, client_email, private_key из service account.
+      - key: FIREBASE_SERVICE_ACCOUNT
+        sync: false
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: FIREBASE_CLIENT_EMAIL
+        sync: false
+      - key: FIREBASE_PRIVATE_KEY
+        sync: false

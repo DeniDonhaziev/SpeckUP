@@ -1,0 +1,23 @@
+{
+  "name": "speckup",
+  "version": "2.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Платформа для обучения ораторскому искусству: тренировки, аккаунты, рейтинг, домашние задания и админ-панель.",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "start": "node server.js",
+    "test": "node --test",
+    "deploy": "firebase deploy",
+    "deploy:hosting": "firebase deploy --only hosting",
+    "deploy:functions": "firebase deploy --only functions"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": "20"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.4.0",
+    "firebase-functions": "^6.4.0"
+  }
+}

@@ -1,0 +1,90 @@
+НАСТРОЙКА САЙТА (локально)
+
+1. Скопируйте .env.example и переименуйте копию в .env
+2. Откройте .env через Блокнот.
+3. Замените данные администратора:
+   ADMIN_EMAIL=ваш_email
+   ADMIN_PASSWORD=сложный_пароль
+4. Для ИИ-разбора (TuZi):
+   AI_API_KEY=ваш_ключ
+   AI_PROVIDER=tuzi
+   AI_BASE_URL=https://api.tu-zi.com/v1
+5. Для Firebase базы локально:
+   DB_BACKEND=firebase
+   FIREBASE_CREDENTIALS_FILE=C:\путь\к\скачанному-json.json
+6. Сохраните файл и перезапустите сервер: npm start
+
+
+ДЕПЛОЙ НА RENDER (сайт в интернете, Blaze НЕ нужен)
+
+Render бесплатно хостит Node.js-сервер. Firebase Firestore (база) остаётся на Spark — платить за Blaze не нужно.
+
+=== Шаг 1. GitHub ===
+
+1. Создайте репозиторий на https://github.com/new (например SpeckUP).
+2. Загрузите туда папку проекта (без node_modules и без .env).
+   Можно через GitHub Desktop или:
+   git init
+   git add .
+   git commit -m "SpeckUP"
+   git remote add origin https://github.com/ВАШ_ЛОГИН/SpeckUP.git
+   git push -u origin main
+
+=== Шаг 2. Render ===
+
+1. Зайдите на https://render.com и войдите через GitHub.
+2. New → Blueprint → выберите репозиторий SpeckUP.
+3. Render прочитает render.yaml и создаст Web Service «speckup».
+
+=== Шаг 3. Переменные окружения (Environment) ===
+
+В панели сервиса → Environment → добавьте секреты:
+
+  AI_API_KEY          = ключ с https://api.tu-zi.com
+  ADMIN_EMAIL         = ваш email для входа в админку
+  ADMIN_PASSWORD      = надёжный пароль админа
+
+  Firebase (вариант А — проще):
+  FIREBASE_SERVICE_ACCOUNT = весь JSON из скачанного service account одной строкой
+  (откройте speakup-edd3f-firebase-adminsdk-....json в Блокноте, скопируйте всё)
+
+  Firebase (вариант Б — три поля из того же JSON):
+  FIREBASE_PROJECT_ID   = speakup-edd3f
+  FIREBASE_CLIENT_EMAIL = firebase-adminsdk-...@speakup-edd3f.iam.gserviceaccount.com
+  FIREBASE_PRIVATE_KEY  = -----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n
+  (скопируйте значение private_key из JSON как есть, с \n)
+
+Остальное (AI_PROVIDER, AI_BASE_URL, DB_BACKEND и т.д.) уже в render.yaml.
+
+=== Шаг 4. Deploy ===
+
+1. Нажмите Deploy (или Manual Deploy → Deploy latest commit).
+2. Через 2–3 минуты сайт будет по адресу:
+   https://speckup.onrender.com
+   (или ваш кастомный URL из Render)
+
+=== Шаг 5. Проверка ===
+
+- В шапке: «ИИ-анализ включён» (не «Деморежим»)
+- Регистрация и вход работают
+- После тренировки есть блок ИИ-тренера
+- В Firebase Console → Firestore появляются users, results
+
+=== Важно ===
+
+- Бесплатный Render «засыпает» после ~15 мин без посещений — первый заход может занять 30–60 сек.
+- Микрофон работает только в Google Chrome (HTTPS Render даёт автоматически).
+- Не загружайте .env и JSON-ключ в GitHub — только через Environment в Render.
+
+
+ДЕПЛОЙ НА FIREBASE (альтернатива, нужен Blaze)
+
+Если позже захотите .web.app вместо Render — см. README.md.
+Требует тариф Blaze для Cloud Functions.
+
+
+ТЕСТОВЫЙ АДМИНИСТРАТОР БЕЗ .ENV (только локально)
+Email: admin@minute.local
+Пароль: Admin123!
+
+Не публикуйте .env и не отправляйте API-ключ другим людям.

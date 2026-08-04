@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Тренажёр публичной речи: получите тему, говорите одну минуту и исправляйте слова-паразиты, повторы и структуру ответа." />
+    <meta name="theme-color" content="#f7f5ef" />
+    <title>Минута речи — тренажёр ораторского искусства</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="launch-warning hidden" id="launchWarning" role="alert">
+      <strong>Сайт открыт неправильно.</strong>
+      <span>Закройте эту вкладку и запустите файл <b>1_ЗАПУСТИТЬ_САЙТ.bat</b> в папке проекта.</span>
+    </div>
+    <header class="site-header">
+      <button class="brand" id="brandButton" type="button" aria-label="На главную">
+        <span class="brand-mark">М</span>
+        <span>Минута речи</span>
+      </button>
+      <nav class="main-nav hidden" id="mainNav" aria-label="Основная навигация">
+        <button type="button" data-nav="dashboard">Главная</button>
+        <button type="button" data-nav="setup">Тренировка</button>
+        <button type="button" data-nav="leaderboard">Рейтинг</button>
+        <button type="button" data-nav="homeworks">Домашние задания</button>
+        <button class="hidden" id="adminNavButton" type="button" data-nav="admin">Админ-панель</button>
+      </nav>
+      <div class="header-right">
+        <span class="mode-badge" id="modeBadge">Проверяем режим…</span>
+        <button class="text-button" id="aboutButton" type="button">Как это работает</button>
+        <button class="auth-button" id="authButton" type="button">Войти</button>
+        <div class="user-menu hidden" id="userMenu">
+          <button class="user-chip" id="profileButton" type="button"><span id="userInitial">У</span><b id="userName">Ученик</b></button>
+          <button class="logout-button" id="logoutButton" type="button" title="Выйти">↪</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="view view-active hero-view" data-view="home">
+        <div class="hero-copy">
+          <p class="eyebrow">Тренажёр уверенной речи</p>
+          <h1>Научитесь говорить ясно <em>за одну минуту</em> в день.</h1>
+          <p class="hero-lead">
+            Получите случайную тему, запишите короткое выступление и узнайте, где вы используете слова-паразиты, повторяетесь или теряете мысль.
+          </p>
+          <div class="hero-actions">
+            <button class="primary-button large" id="beginButton" type="button">
+              Начать тренировку
+              <span aria-hidden="true">↗</span>
+            </button>
+            <span class="microcopy">Микрофон понадобится только во время записи</span>
+          </div>
+        </div>
+
+        <div class="hero-orbit" aria-hidden="true">
+          <div class="orbit-ring ring-one"></div>
+          <div class="orbit-ring ring-two"></div>
+          <div class="orbit-core">
+            <span class="orbit-time">01:00</span>
+            <span class="orbit-caption">говорите</span>
+          </div>
+          <span class="floating-tag tag-one">«ну» × 2</span>
+          <span class="floating-tag tag-two">структура 84</span>
+          <span class="floating-tag tag-three">темп 132</span>
+        </div>
+
+        <div class="feature-strip">
+          <article>
+            <strong>01</strong>
+            <span>Случайная тема</span>
+          </article>
+          <article>
+            <strong>02</strong>
+            <span>Минута речи</span>
+          </article>
+          <article>
+            <strong>03</strong>
+            <span>Разбор и повтор</span>
+          </article>
+        </div>
+      </section>
+
+
+      <section class="view dashboard-view" data-view="dashboard">
+        <div class="dashboard-welcome">
+          <div>
+            <p class="eyebrow">Личный кабинет</p>
+            <h2>Добро пожаловать, <span id="dashboardName">ученик</span></h2>
+            <p>Тренируйтесь регулярно, выполняйте задания и отслеживайте, как ваша речь становится сильнее.</p>
+          </div>
+          <button class="primary-button" id="dashboardTrainButton" type="button">Новая тренировка</button>
+        </div>
+        <div class="dashboard-stats" id="dashboardStats"></div>
+        <div class="dashboard-grid">
+          <article class="portal-card">
+            <div class="portal-heading"><div><span>Последние попытки</span><h3>История прогресса</h3></div><button class="link-button" data-nav="leaderboard" type="button">Открыть рейтинг</button></div>
+            <div class="history-list" id="recentResults"></div>
+          </article>
+          <article class="portal-card">
+            <div class="portal-heading"><div><span>На этой неделе</span><h3>Домашние задания</h3></div><button class="link-button" data-nav="homeworks" type="button">Все задания</button></div>
+            <div class="compact-homeworks" id="dashboardHomeworks"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view leaderboard-view" data-view="leaderboard">
+        <div class="section-heading portal-title">
+          <p class="eyebrow">Рейтинг учеников</p>
+          <h2>Кто растёт быстрее</h2>
+          <p>Место зависит от тренировочных баллов и оценённых домашних заданий. Прогресс показывает изменение среднего результата.</p>
+        </div>
+        <div class="leaderboard-podium" id="leaderboardPodium"></div>
+        <article class="portal-card leaderboard-card">
+          <div class="leaderboard-head"><span>Место</span><span>Ученик</span><span>Уровень</span><span>Средний балл</span><span>Прогресс</span><span>Очки</span></div>
+          <div id="leaderboardList"></div>
+        </article>
+      </section>
+
+      <section class="view homeworks-view" data-view="homeworks">
+        <div class="section-heading portal-title">
+          <p class="eyebrow">Практика от преподавателя</p>
+          <h2>Домашние задания</h2>
+          <p>Выполняйте задания, отправляйте текст выступления и получайте оценку администратора.</p>
+        </div>
+        <div class="homework-grid" id="homeworkGrid"></div>
+      </section>
+
+      <section class="view admin-view" data-view="admin">
+        <div class="section-heading portal-title">
+          <p class="eyebrow">Управление школой</p>
+          <h2>Админ-панель</h2>
+          <p>Создавайте задания, проверяйте ответы и управляйте доступом учеников.</p>
+        </div>
+        <div class="admin-summary" id="adminSummary"></div>
+        <div class="admin-tabs">
+          <button class="active" type="button" data-admin-tab="homeworks">Задания</button>
+          <button type="button" data-admin-tab="submissions">Ответы учеников</button>
+          <button type="button" data-admin-tab="users">Пользователи</button>
+        </div>
+        <div class="admin-panel" data-admin-panel="homeworks">
+          <form class="portal-card admin-form" id="homeworkForm">
+            <div class="portal-heading"><div><span>Новое задание</span><h3>Опубликовать домашнюю работу</h3></div></div>
+            <div class="form-grid">
+              <label class="field full"><span>Название</span><input name="title" required minlength="3" maxlength="160" placeholder="Например: Убедительная самопрезентация"></label>
+              <label class="field full"><span>Описание</span><textarea name="description" required minlength="10" rows="5" placeholder="Что нужно сделать и по какой структуре говорить"></textarea></label>
+              <label class="field"><span>Категория</span><select name="category"><option value="everyday">Повседневные</option><option value="work">Работа и карьера</option><option value="debate">Дебаты</option><option value="stories">Истории</option><option value="explain">Объясни просто</option><option value="sales">Продажи</option></select></label>
+              <label class="field"><span>Длительность, секунд</span><input name="durationSeconds" type="number" min="30" max="300" value="60"></label>
+              <label class="field"><span>Баллы</span><input name="points" type="number" min="1" max="500" value="30"></label>
+              <label class="field"><span>Сдать до</span><input name="dueDate" type="date"></label>
+            </div>
+            <button class="primary-button" type="submit">Опубликовать задание</button>
+          </form>
+          <div class="admin-list" id="adminHomeworkList"></div>
+        </div>
+        <div class="admin-panel hidden" data-admin-panel="submissions"><div class="admin-list" id="adminSubmissionList"></div></div>
+        <div class="admin-panel hidden" data-admin-panel="users"><div class="admin-list" id="adminUserList"></div></div>
+      </section>
+
+      <section class="view setup-view" data-view="setup">
+        <div class="section-heading compact">
+          <p class="eyebrow">Шаг 1 из 3</p>
+          <h2>Выберите направление</h2>
+          <p>Тема появится сразу. Её можно менять сколько угодно до начала записи.</p>
+        </div>
+
+        <div class="setup-grid">
+          <div class="category-panel">
+            <div class="category-grid" id="categoryGrid" aria-label="Категории тем"></div>
+          </div>
+
+          <article class="topic-card">
+            <div class="topic-card-top">
+              <span id="topicCategoryLabel">Повседневные</span>
+              <button class="icon-button" id="newTopicButton" type="button" aria-label="Другая тема" title="Другая тема">↻</button>
+            </div>
+            <p class="topic-label">Ваша тема</p>
+            <h3 id="topicText">Загружаем тему…</h3>
+            <div class="topic-hint">
+              <span>Структура</span>
+              <strong>Тезис → причина → пример → вывод</strong>
+            </div>
+            <button class="primary-button full" id="prepareButton" type="button">Готовиться 15 секунд</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="view prep-view" data-view="prep">
+        <div class="prep-shell">
+          <p class="eyebrow">Подготовка</p>
+          <p class="prep-topic" id="prepTopic"></p>
+          <div class="prep-countdown" id="prepCountdown">15</div>
+          <p class="prep-instruction">Определите основную мысль и один пример. Не пишите полный текст.</p>
+          <button class="secondary-button" id="skipPrepButton" type="button">Начать сейчас</button>
+        </div>
+      </section>
+
+      <section class="view record-view" data-view="record">
+        <div class="record-layout">
+          <div class="record-main">
+            <div class="record-status-row">
+              <div class="record-status"><span class="pulse-dot"></span> Идёт запись</div>
+              <span class="microphone-status connecting" id="microphoneStatus">Подключаем микрофон…</span>
+            </div>
+            <p class="record-topic" id="recordTopic"></p>
+
+            <div class="timer-wrap">
+              <svg class="timer-ring" viewBox="0 0 240 240" aria-hidden="true">
+                <circle class="timer-track" cx="120" cy="120" r="105"></circle>
+                <circle class="timer-progress" id="timerProgress" cx="120" cy="120" r="105"></circle>
+              </svg>
+              <div class="timer-content">
+                <span id="recordTimer">01:00</span>
+                <small>осталось</small>
+              </div>
+            </div>
+
+            <canvas id="waveform" width="720" height="110" aria-label="Визуализация голоса"></canvas>
+            <button class="stop-button" id="stopButton" type="button">
+              <span></span>
+              Закончить выступление
+            </button>
+          </div>
+
+          <aside class="live-panel">
+            <div class="live-panel-head">
+              <span>Черновая расшифровка</span>
+              <span class="live-indicator" id="recognitionStatus">ожидание</span>
+            </div>
+            <p id="liveTranscript">Начните говорить — текст появится здесь.</p>
+            <div class="live-tip">
+              <strong>Совет</strong>
+              <span>Аудио записывается целиком, даже если живые субтитры на секунду перезапустятся. Не останавливайтесь из-за оговорки.</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view loading-view" data-view="loading">
+        <div class="loading-card">
+          <div class="loader" aria-hidden="true"><span></span><span></span><span></span></div>
+          <p class="eyebrow">Шаг 3 из 3</p>
+          <h2>Разбираем выступление</h2>
+          <p id="loadingText">Расшифровываем речь и считаем слова-паразиты…</p>
+        </div>
+      </section>
+
+      <section class="view results-view" data-view="results">
+        <div class="results-header">
+          <div>
+            <p class="eyebrow">Результат тренировки</p>
+            <h2 id="resultTitle">Хорошая попытка</h2>
+            <p id="resultSummary">Ниже — конкретные места, которые сделают следующий ответ сильнее.</p>
+          </div>
+          <div class="score-badge">
+            <strong id="overallScore">—</strong>
+            <span>из 100</span>
+          </div>
+        </div>
+
+        <div class="warning-box hidden" id="warningsBox"></div>
+
+        <div class="metrics-grid">
+          <article class="metric-card">
+            <span>Темп</span>
+            <strong><b id="wpmValue">—</b> слов/мин</strong>
+            <p id="paceFeedback"></p>
+          </article>
+          <article class="metric-card">
+            <span>Слова-паразиты</span>
+            <strong><b id="fillersValue">—</b> раз</strong>
+            <p id="fillersFeedback"></p>
+          </article>
+          <article class="metric-card">
+            <span>Длинные паузы</span>
+            <strong><b id="pausesValue">—</b> раз</strong>
+            <p id="pausesFeedback"></p>
+          </article>
+          <article class="metric-card">
+            <span>Структура</span>
+            <strong><b id="structureValue">—</b> / 100</strong>
+            <p id="structureFeedback"></p>
+          </article>
+        </div>
+
+        <div class="results-columns">
+          <article class="result-panel transcript-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="panel-kicker">Ваш ответ</span>
+                <h3>Расшифровка</h3>
+              </div>
+              <span class="legend"><i></i> слова-паразиты</span>
+            </div>
+            <div class="transcript-text" id="transcriptText"></div>
+            <div class="filler-list" id="fillerList"></div>
+          </article>
+
+          <article class="result-panel advice-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="panel-kicker">Следующая попытка</span>
+                <h3>Что улучшить</h3>
+              </div>
+            </div>
+            <ol class="recommendation-list" id="recommendationList"></ol>
+            <div class="next-exercise hidden" id="nextExercise"></div>
+          </article>
+        </div>
+
+        <article class="result-panel ai-panel hidden" id="aiPanel">
+          <div class="panel-heading">
+            <div>
+              <span class="panel-kicker">Разбор содержания</span>
+              <h3>Комментарий тренера</h3>
+            </div>
+            <div class="mini-scores" id="miniScores"></div>
+          </div>
+          <div class="ai-grid">
+            <div>
+              <h4>Сильные стороны</h4>
+              <ul id="strengthsList"></ul>
+            </div>
+            <div>
+              <h4>Неточные места</h4>
+              <div id="issuesList"></div>
+            </div>
+          </div>
+          <div class="improved-answer">
+            <span>Пример более сильного ответа</span>
+            <p id="improvedAnswer"></p>
+          </div>
+        </article>
+
+        <div class="results-actions">
+          <button class="primary-button" id="retryButton" type="button">Повторить эту тему</button>
+          <button class="secondary-button" id="anotherButton" type="button">Выбрать новую тему</button>
+        </div>
+      </section>
+    </main>
+
+
+    <dialog id="authDialog" class="auth-dialog">
+      <button class="dialog-close" id="closeAuthButton" type="button" aria-label="Закрыть">×</button>
+      <p class="eyebrow">Аккаунт ученика</p>
+      <div class="auth-tabs">
+        <button class="active" type="button" data-auth-tab="login">Вход</button>
+        <button type="button" data-auth-tab="register">Регистрация</button>
+      </div>
+      <form class="auth-form" id="loginForm" data-auth-form="login">
+        <label class="field"><span>Email</span><input type="email" name="email" autocomplete="email" required placeholder="student@example.com"></label>
+        <label class="field"><span>Пароль</span><input type="password" name="password" autocomplete="current-password" required placeholder="Минимум 8 символов"></label>
+        <button class="primary-button full" type="submit">Войти</button>
+      </form>
+      <form class="auth-form hidden" id="registerForm" data-auth-form="register">
+        <label class="field"><span>Имя и фамилия</span><input type="text" name="name" autocomplete="name" required minlength="2" maxlength="80" placeholder="Анна Иванова"></label>
+        <label class="field"><span>Email</span><input type="email" name="email" autocomplete="email" required placeholder="student@example.com"></label>
+        <label class="field"><span>Пароль</span><input type="password" name="password" autocomplete="new-password" required minlength="8" placeholder="Минимум 8 символов"></label>
+        <button class="primary-button full" type="submit">Создать аккаунт</button>
+      </form>
+      <p class="auth-note">Для проверки админ-панели используйте данные из README или файла .env.</p>
+    </dialog>
+
+    <dialog id="homeworkDialog" class="homework-dialog">
+      <button class="dialog-close" id="closeHomeworkDialog" type="button" aria-label="Закрыть">×</button>
+      <p class="eyebrow">Ответ на задание</p>
+      <h2 id="homeworkDialogTitle">Домашнее задание</h2>
+      <p id="homeworkDialogDescription" class="dialog-description"></p>
+      <form id="homeworkSubmitForm">
+        <input type="hidden" name="homeworkId">
+        <label class="field"><span>Текст вашего выступления</span><textarea name="answer" rows="9" minlength="20" required placeholder="Напишите расшифровку выступления или основной план ответа"></textarea></label>
+        <button class="primary-button full" type="submit">Отправить преподавателю</button>
+      </form>
+    </dialog>
+
+    <dialog id="aboutDialog">
+      <button class="dialog-close" id="closeDialogButton" type="button" aria-label="Закрыть">×</button>
+      <p class="eyebrow">Как это работает</p>
+      <h2>Одна тренировка — около двух минут</h2>
+      <ol>
+        <li><strong>Получите тему.</strong><span>Выберите категорию и сформулируйте свою позицию.</span></li>
+        <li><strong>Говорите минуту.</strong><span>Сайт запишет голос, примерный темп и паузы.</span></li>
+        <li><strong>Изучите разбор.</strong><span>Повторите тему, убрав паразиты и усилив структуру.</span></li>
+      </ol>
+      <p class="privacy-note">Запись не сохраняется в проекте. При включённом API она отправляется на распознавание и анализ в момент тренировки.</p>
+    </dialog>
+
+    <div class="toast hidden" id="toast" role="status"></div>
+    <script defer src="app.js"></script>
+  </body>
+</html>
