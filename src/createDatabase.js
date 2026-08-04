@@ -30,6 +30,7 @@ function resolveBackend() {
   if (configured === "file") return "file";
   if (configured === "firebase") return "firebase";
   if (process.env.FUNCTION_TARGET || process.env.K_SERVICE || process.env.FIREBASE_CONFIG) return "firebase";
+  if (process.env.RENDER && getFirebaseCredentialsFromEnv()) return "firebase";
   return getFirebaseCredentialsFromEnv() ? "firebase" : "file";
 }
 

@@ -36,7 +36,11 @@ export function getFirebaseCredentialsFromEnv() {
 
   if (process.env.FIREBASE_SERVICE_ACCOUNT) {
     try {
-      return JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+      let raw = String(process.env.FIREBASE_SERVICE_ACCOUNT).trim();
+      if ((raw.startsWith("'") && raw.endsWith("'")) || (raw.startsWith('"') && raw.endsWith('"'))) {
+        raw = raw.slice(1, -1);
+      }
+      return JSON.parse(raw);
     } catch {
       throw new Error("FIREBASE_SERVICE_ACCOUNT содержит некорректный JSON.");
     }

@@ -173,6 +173,9 @@ if (isDirectRun) {
   server.listen(port, host, () => {
     const publicUrl = process.env.RENDER_EXTERNAL_URL || process.env.FIREBASE_HOSTING_URL || `http://localhost:${port}`;
     console.log(`\nSPEAKUP запущен: ${publicUrl}`);
+    if (process.env.RENDER) {
+      console.log(`Render: AI_API_KEY=${process.env.AI_API_KEY ? "задан" : "НЕ ЗАДАН"}, FIREBASE=${process.env.FIREBASE_SERVICE_ACCOUNT ? "задан" : "НЕ ЗАДАН"}, DB_BACKEND=${process.env.DB_BACKEND || "auto"}`);
+    }
     console.log(process.env.OPENAI_API_KEY || process.env.AI_API_KEY ? "ИИ-анализ включён." : "Деморежим: API-ключ не указан.");
     if (aiConfig.enabled) {
       const status = aiConfig.aiProbeOk ? "подключён" : `ошибка: ${aiConfig.aiProbeReason || "неверный ключ или base URL"}`;
@@ -451,6 +454,6 @@ function loadEnv(filePath) {
     const key = line.slice(0, separator).trim();
     let value = line.slice(separator + 1).trim();
     if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) value = value.slice(1, -1);
-    process.env[key] = value;
+    if (process.env[key] === undefined || process.env[key] === "") process.env[key] = value;
   }
 }
