@@ -18,13 +18,22 @@ const host = process.env.HOST || "0.0.0.0";
 const dataDir = process.env.DATA_DIR || path.join(__dirname, "data");
 const maxBodyBytes = 20 * 1024 * 1024;
 const sessionCookieName = "orator_session";
-const database = await createDatabase({
-  dataDir,
-  adminEmail: process.env.ADMIN_EMAIL,
-  adminPassword: process.env.ADMIN_PASSWORD,
-  adminName: process.env.ADMIN_NAME
-});
-const aiConfig = await resolveAiConfig();
+
+let database;
+let aiConfig;
+
+try {
+  database = await createDatabase({
+    dataDir,
+    adminEmail: process.env.ADMIN_EMAIL,
+    adminPassword: process.env.ADMIN_PASSWORD,
+    adminName: process.env.ADMIN_NAME
+  });
+  aiConfig = await resolveAiConfig();
+} catch (error) {
+  console.error("Ошибка запуска SPEAKUP:", error?.stack || error?.message || error);
+  process.exit(1);
+}
 
 const server = http.createServer(async (req, res) => {
   try {

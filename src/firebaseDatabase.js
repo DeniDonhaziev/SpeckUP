@@ -155,7 +155,16 @@ export class FirebaseDatabase {
       await this.#setDoc(COLLECTIONS.homeworks, homework.id, homework);
     }
 
-    await this.cleanupSessions();
+    await this.#purgeExpiredSessions();
+  }
+
+  async #purgeExpiredSessions() {
+    const now = new Date().toISOString();
+    const snapshot = await this.db.collection(COLLECTIONS.sessions).where("expiresAt", "<=", now).get();
+    if (snapshot.empty) return;
+    const batch = this.db.batch();
+    snapshot.docs.forEach((doc) => batch.delete(doc.ref));
+    await batch.commit();
   }
 
   async register({ name, email, password }) {
@@ -223,12 +232,7 @@ export class FirebaseDatabase {
 
   async cleanupSessions() {
     await this.#ensureReady();
-    const now = new Date().toISOString();
-    const snapshot = await this.db.collection(COLLECTIONS.sessions).where("expiresAt", "<=", now).get();
-    if (snapshot.empty) return;
-    const batch = this.db.batch();
-    snapshot.docs.forEach((doc) => batch.delete(doc.ref));
-    await batch.commit();
+    await this.#purgeExpiredSessions();
   }
 
   async saveResult(userId, result) {
