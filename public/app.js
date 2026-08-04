@@ -127,6 +127,21 @@ el.timerProgress.style.strokeDashoffset = "0";
 
 init();
 
+async function fetchJsonWithRetry(url, attempts = 4, delayMs = 1500) {
+  let lastError;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const response = await fetch(url);
+      if (response.ok) return response.json();
+      lastError = new Error(`HTTP ${response.status}`);
+    } catch (error) {
+      lastError = error;
+    }
+    if (attempt < attempts) await new Promise((resolve) => setTimeout(resolve, delayMs));
+  }
+  throw lastError || new Error("Request failed");
+}
+
 async function init() {
   bindEvents();
   if (window.location.protocol === "file:") {
@@ -136,24 +151,22 @@ async function init() {
     renderCategories();
     return;
   }
+  el.modeBadge.textContent = "Подключаем ИИ…";
   try {
-    const [configResponse, categoriesResponse, sessionResponse] = await Promise.all([
-      fetch("/api/config"),
-      fetch("/api/categories"),
+    const [configPayload, categoriesPayload, sessionResponse] = await Promise.all([
+      fetchJsonWithRetry("/api/config"),
+      fetchJsonWithRetry("/api/categories"),
       fetch("/api/auth/me")
     ]);
 
-    if (configResponse.ok) state.config = await configResponse.json();
-    if (categoriesResponse.ok) {
-      const payload = await categoriesResponse.json();
-      state.categories = payload.categories || [];
-    }
+    state.config = configPayload;
+    state.categories = categoriesPayload.categories || [];
     if (sessionResponse.ok) {
       const payload = await sessionResponse.json();
       state.user = payload.user || null;
     }
   } catch {
-    showToast("Сервер не ответил. Проверьте, что проект запущен через npm run dev.");
+    showToast("Сервер просыпается… Обновите страницу через 10 секунд (Ctrl+F5).");
   }
 
   updateModeBadge();

@@ -329,7 +329,7 @@ function serveStatic(urlPath, headOnly, res) {
   res.writeHead(200, {
     "Content-Type": mimeType(filePath),
     "Content-Length": stat.size,
-    "Cache-Control": filePath.endsWith("index.html") ? "no-cache" : "public, max-age=3600",
+    "Cache-Control": /\.(html|js|css)$/i.test(filePath) ? "no-cache, max-age=0" : "public, max-age=3600",
     "X-Content-Type-Options": "nosniff",
     "Referrer-Policy": "same-origin",
     "X-Frame-Options": "SAMEORIGIN",
