@@ -159,10 +159,29 @@ function buildFallbackExercise({ topic, metrics }) {
   return `Перезапишите ответ на «${safeTopic}»: начните с главного вывода, затем добавьте один конкретный пример из жизни.`;
 }
 
+function normalizeImprovementItem(item) {
+  if (item == null) return "";
+  if (typeof item === "string") return item.trim();
+  if (typeof item === "object") {
+    return String(
+      item.text
+      || item.tip
+      || item.advice
+      || item.suggestion
+      || item.recommendation
+      || item.correction
+      || item.explanation
+      || item.message
+      || ""
+    ).trim();
+  }
+  return String(item).trim();
+}
+
 export function normalizeCoachFeedback(raw, { topic, metrics } = {}) {
   if (!raw || typeof raw !== "object") return null;
   const improvementsFromAi = Array.isArray(raw.improvements)
-    ? raw.improvements.map((item) => String(item || "").trim()).filter(Boolean)
+    ? raw.improvements.map(normalizeImprovementItem).filter(Boolean)
     : [];
   const improvementsFromIssues = Array.isArray(raw.issues)
     ? raw.issues

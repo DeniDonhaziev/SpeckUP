@@ -838,14 +838,34 @@ function renderFillerList(details) {
   });
 }
 
+function recommendationText(item) {
+  if (item == null) return "";
+  if (typeof item === "string") return item.trim();
+  if (typeof item === "object") {
+    return String(
+      item.text
+      || item.tip
+      || item.advice
+      || item.suggestion
+      || item.recommendation
+      || item.correction
+      || item.explanation
+      || item.message
+      || ""
+    ).trim();
+  }
+  return String(item).trim();
+}
+
 function renderRecommendations(recommendations, coach) {
   el.recommendationList.replaceChildren();
-  const list = coach?.improvements?.length
+  const rawList = coach?.improvements?.length
     ? coach.improvements
     : recommendations.length
       ? recommendations
       : ["Повторите ответ, сохранив ту же структуру, но сделайте формулировки короче."];
-  list.forEach((text) => {
+  const list = rawList.map(recommendationText).filter(Boolean);
+  (list.length ? list : ["Повторите ответ, сохранив ту же структуру, но сделайте формулировки короче."]).forEach((text) => {
     const item = document.createElement("li");
     item.textContent = text;
     el.recommendationList.append(item);
