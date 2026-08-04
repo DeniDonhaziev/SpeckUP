@@ -34,7 +34,7 @@ Render бесплатно хостит Node.js-сервер. Firebase Firestore 
 
 1. Зайдите на https://render.com и войдите через GitHub.
 2. New → Blueprint → выберите репозиторий SpeckUP.
-3. Render прочитает render.yaml и создаст Web Service «speckup».
+3. Render прочитает render.yaml и создаст Web Service «speakup».
 
 === Шаг 3. Переменные окружения (Environment) ===
 
@@ -60,7 +60,7 @@ Render бесплатно хостит Node.js-сервер. Firebase Firestore 
 
 1. Нажмите Deploy (или Manual Deploy → Deploy latest commit).
 2. Через 2–3 минуты сайт будет по адресу:
-   https://speckup.onrender.com
+   https://speakup.onrender.com
    (или ваш кастомный URL из Render)
 
 === Шаг 5. Проверка ===

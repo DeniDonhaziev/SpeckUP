@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: speckup
+    name: speakup
     runtime: node
     plan: free
     region: frankfurt

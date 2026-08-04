@@ -1,7 +1,7 @@
 ﻿@echo off
 chcp 65001 >nul
 cd /d "%~dp0"
-title Минута речи - сервер
+title SPEAKUP - сервер
 
 where node >nul 2>&1
 if errorlevel 1 (

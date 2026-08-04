@@ -163,7 +163,7 @@ const isDirectRun = process.argv[1] && path.resolve(process.argv[1]) === path.re
 if (isDirectRun) {
   server.listen(port, host, () => {
     const publicUrl = process.env.RENDER_EXTERNAL_URL || process.env.FIREBASE_HOSTING_URL || `http://localhost:${port}`;
-    console.log(`\nSpeckUP запущен: ${publicUrl}`);
+    console.log(`\nSPEAKUP запущен: ${publicUrl}`);
     console.log(process.env.OPENAI_API_KEY || process.env.AI_API_KEY ? "ИИ-анализ включён." : "Деморежим: API-ключ не указан.");
     if (aiConfig.enabled) {
       const status = aiConfig.aiProbeOk ? "подключён" : `ошибка: ${aiConfig.aiProbeReason || "неверный ключ или base URL"}`;
