@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "buildCommand": "echo 'No build needed'",
+  "installCommand": "npm install",
+  "framework": null,
   "rewrites": [
     {
       "source": "/(.*)",
