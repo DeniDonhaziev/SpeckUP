@@ -14,7 +14,7 @@
   },
   "main": "index.js",
   "engines": {
-    "node": "20"
+    "node": "24.x"
   },
   "dependencies": {
     "firebase-admin": "^13.4.0",
