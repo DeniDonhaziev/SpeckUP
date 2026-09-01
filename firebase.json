@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "speakup-platform",
     "public": "public",
     "ignore": [
       "firebase.json",

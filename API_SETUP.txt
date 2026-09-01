@@ -21,12 +21,12 @@ Render бесплатно хостит Node.js-сервер. Firebase Firestore 
 
 === Шаг 1. GitHub ===
 
-1. Создайте репозиторий на https://github.com/new (например SpeckUP).
+1. Создайте репозиторий на https://github.com/new (например SPEAKUP).
 2. Загрузите туда папку проекта (без node_modules и без .env).
    Можно через GitHub Desktop или:
    git init
    git add .
-   git commit -m "SpeckUP"
+   git commit -m "SPEAKUP"
    git remote add origin https://github.com/ВАШ_ЛОГИН/SpeckUP.git
    git push -u origin main
 
