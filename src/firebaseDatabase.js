@@ -157,6 +157,18 @@ export class FirebaseDatabase {
     }
 
     await this.#purgeExpiredSessions();
+    const homework = {
+      id: crypto.randomUUID(),
+      category: "work",
+      durationSeconds: 60,
+      points: 30,
+      dueDate: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
+      active: true,
+      createdBy: admin?.id || null,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    await this.#setDoc(COLLECTIONS.homeworks, homework.id, homework);
   }
 
   async #purgeExpiredSessions() {
