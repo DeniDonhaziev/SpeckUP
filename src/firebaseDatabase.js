@@ -144,9 +144,6 @@ export class FirebaseDatabase {
       const adminSnapshot = await this.db.collection(COLLECTIONS.users).where("role", "==", "admin").limit(1).get();
       const admin = adminSnapshot.empty ? null : { id: adminSnapshot.docs[0].id, ...adminSnapshot.docs[0].data() };
       const homework = {
-        id: crypto.randomUUID(),
-        title: "Убедительная самопрезентация",
-        description: "Подготовьте минутное выступление: кто вы, чем можете быть полезны и какой результат хотите получить. Используйте структуру: тезис → доказательство → пример → призыв.",
         category: "work",
         durationSeconds: 60,
         points: 30,
