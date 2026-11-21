@@ -111,6 +111,9 @@ export class FirebaseDatabase {
   }
 
   async #setDoc(collection, id, data) {
+    if (typeof id !== "string" || !id.trim()) {
+      throw new Error(`Не указан ID документа в коллекции "${collection}".`);
+    }
     await this.db.collection(collection).doc(id).set(data, { merge: true });
   }
 
@@ -144,6 +147,7 @@ export class FirebaseDatabase {
       const adminSnapshot = await this.db.collection(COLLECTIONS.users).where("role", "==", "admin").limit(1).get();
       const admin = adminSnapshot.empty ? null : { id: adminSnapshot.docs[0].id, ...adminSnapshot.docs[0].data() };
       const homework = {
+        id: crypto.randomUUID(),
         category: "work",
         durationSeconds: 60,
         points: 30,
@@ -157,18 +161,6 @@ export class FirebaseDatabase {
     }
 
     await this.#purgeExpiredSessions();
-    const homework = {
-      id: crypto.randomUUID(),
-      category: "work",
-      durationSeconds: 60,
-      points: 30,
-      dueDate: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
-      active: true,
-      createdBy: admin?.id || null,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
-    await this.#setDoc(COLLECTIONS.homeworks, homework.id, homework);
   }
 
   async #purgeExpiredSessions() {
