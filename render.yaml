@@ -21,11 +21,11 @@ services:
       - key: ADMIN_PASSWORD
         sync: false
       - key: AI_PROVIDER
-        value: tuzi
+        value: openrouter
       - key: AI_BASE_URL
-        value: https://api.tu-zi.com/v1
+        value: https://openrouter.ai/api/v1
       - key: ANALYSIS_MODEL
-        value: gpt-4o-mini
+        value: openai/gpt-4o-mini
       - key: AI_API_KEY
         sync: false
       - key: DB_BACKEND
